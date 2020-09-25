@@ -18,8 +18,8 @@ If any problem occurs while you open and/or read the "operation file" write "Err
 
 The "operation file" will contains lines with one operation per line
 If a line is incorrect an error occurs.
-If an error has occured your program must return 1
-If no error has occured it must return 0
+If an error has occurred your program must return 1
+If no error has occurred it must return 0
 The last line can be with or without a \n
 The lines must be read in order and therefore operations must be executed in the same order
 There must be one space between each variable in a line
