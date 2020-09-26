@@ -5,17 +5,17 @@ from termcolor import colored
 def test_original(test):
     if test.find(' ') != -1:
         test = test.split()
-        return (subprocess.run(["./our_micro_paint", "micro_paint_tester/examples/" + test[1], "micro_paint_tester/examples/" + test[1]], stdout=subprocess.PIPE)).stdout
-    command = "micro_paint_tester/examples/" + test
-    return (subprocess.run(["./our_micro_paint", command], stdout=subprocess.PIPE)).stdout
+        return (subprocess.run(["./our_mini_paint", "mini_paint_tester/examples/" + test[1], "mini_paint_tester/examples/" + test[1]], stdout=subprocess.PIPE)).stdout
+    command = "mini_paint_tester/examples/" + test
+    return (subprocess.run(["./our_mini_paint", command], stdout=subprocess.PIPE)).stdout
 
 
 def test_my(test):
     if test.find(' ') != -1:
         test = test.split()
-        return (subprocess.run(["./my_micro_paint", "micro_paint_tester/examples/" + test[1], "micro_paint_tester/examples/" + test[1]], stdout=subprocess.PIPE)).stdout
-    command = "micro_paint_tester/examples/" + test
-    return (subprocess.run(["./my_micro_paint", command], stdout=subprocess.PIPE)).stdout
+        return (subprocess.run(["./my_mini_paint", "mini_paint_tester/examples/" + test[1], "mini_paint_tester/examples/" + test[1]], stdout=subprocess.PIPE)).stdout
+    command = "mini_paint_tester/examples/" + test
+    return (subprocess.run(["./my_mini_paint", command], stdout=subprocess.PIPE)).stdout
 
 
 if __name__ == "__main__":
