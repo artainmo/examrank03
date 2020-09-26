@@ -7,3 +7,4 @@ Python3.7, pip3
 Usage:
 Put your own micro/mini_paint in the appropriate "my" directory. Use "make set" to set the appropriate environment. Afterwards use make or make run to launch the tester. Use "make re" to clean and launch.
 Correct answers can be found in answers/correct_log.txt and wrong ones in answers/errors_log.txt
+To do single tests, add at the end of the last line in the single section in the makefile the test you want (for example 1), then use "make single" in terminal

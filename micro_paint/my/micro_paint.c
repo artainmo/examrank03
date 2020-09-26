@@ -117,6 +117,6 @@ int main(int argc, char **argv)
 		}
 		return (0);
 	}
-	write(1, "Error: Operation file is corrupted\n", 32);
+	write(1, "Error: Operation file corrupted\n", 32);
 	return (1);
 }

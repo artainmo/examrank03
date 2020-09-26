@@ -5,17 +5,17 @@ from termcolor import colored
 def test_original(test):
     if test.find(' ') != -1:
         test = test.split()
-        return (subprocess.run(["./our_mini_paint", "mini_paint_tester/examples/" + test[1], "mini_paint_tester/examples/" + test[1]], stdout=subprocess.PIPE)).stdout
+        return ((subprocess.run(["./our_mini_paint", "mini_paint_tester/examples/" + test[1], "mini_paint_tester/examples/" + test[1]], stdout=subprocess.PIPE)).stdout).decode("utf-8")
     command = "mini_paint_tester/examples/" + test
-    return (subprocess.run(["./our_mini_paint", command], stdout=subprocess.PIPE)).stdout
+    return ((subprocess.run(["./our_mini_paint", command], stdout=subprocess.PIPE)).stdout).decode("utf-8")
 
 
 def test_my(test):
     if test.find(' ') != -1:
         test = test.split()
-        return (subprocess.run(["./my_mini_paint", "mini_paint_tester/examples/" + test[1], "mini_paint_tester/examples/" + test[1]], stdout=subprocess.PIPE)).stdout
+        return ((subprocess.run(["./my_mini_paint", "mini_paint_tester/examples/" + test[1], "mini_paint_tester/examples/" + test[1]], stdout=subprocess.PIPE)).stdout).decode("utf-8")
     command = "mini_paint_tester/examples/" + test
-    return (subprocess.run(["./my_mini_paint", command], stdout=subprocess.PIPE)).stdout
+    return ((subprocess.run(["./my_mini_paint", command], stdout=subprocess.PIPE)).stdout).decode("utf-8")
 
 
 if __name__ == "__main__":
@@ -35,9 +35,9 @@ if __name__ == "__main__":
                     print(test[0:-1].ljust(65), end="")
                     print(colored("CORRECT", "green"))
                     fd_correct_log.write("\n****************************************\n%s\n****************************************\n" % (test))
-                    fd_correct_log.write("==========output==========\nYOU:\n%s\nBASH:\n%s" % (my_output, output))
+                    fd_correct_log.write("==========output==========\nYOU:\n%s\nOUR:\n%s" % (my_output, output))
                 else:
                     print(test[0:-1].ljust(65), end="")
                     print(colored("WRONG", "red"))
                     fd_error_log.write("\n****************************************\n%s\n****************************************\n" % (test))
-                    fd_error_log.write("==========output==========\nYOU:\n%s\n\nBASH:\n%s\n" % (my_output, output))
+                    fd_error_log.write("==========output==========\nYOU:\n%s\n\nOUR:\n%s\n" % (my_output, output))

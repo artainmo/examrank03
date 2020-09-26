@@ -8,6 +8,11 @@ run:
 	@gcc -Wall -Wextra -Werror mini_paint_tester/our_mini_paint.c -o our_mini_paint
 	@python3 main.py
 
+single:
+	@gcc -Wall -Wextra -Werror my/mini_paint.c -o my_mini_paint
+	@gcc -Wall -Wextra -Werror mini_paint_tester/our_mini_paint.c -o our_mini_paint
+	@python3 single_test.py 1
+
 set:
 	pip3 install termcolor
 
