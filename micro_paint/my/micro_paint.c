@@ -13,8 +13,8 @@ int where(float x, float y, t_r *rec)
 	if (x < xl || x > xr || y < yt || y > yb)
 		return (0); //Outside
 	if (x - xl < 1.000000 || xr - x < 1.000000 || y - yt < 1.000000 || yb - y < 1.000000)
-		return (2);
-	return (1);
+		return (2); //Border
+	return (1); //Inside
 }
 
 int is_in_rectangle(t_win *win, t_r *rec, float x, float y)

@@ -1,23 +1,33 @@
 #include "mini_paint.h"
 
+//On exam no obligation to free correctly
 int g_error = 0;
 
-int is_in_circle(t_win *win, t_cir *cir, float x, float y)
+int where(float x, float y, t_cir *cir)
 {
-	float	distance_diff;
-	float	distance;
+	float distance;
 
-	distance = sqrtf(powf(x - cir->x_c, 2) + powf(y - cir->y_c, 2));
-	distance_diff = distance - cir->radius;
-	if (distance_diff <= 0.00000000 && cir->type == 'C')
+	distance = sqrtf((powf((x - cir->x), 2) + powf((y - cir->y), 2)));
+	if (distance > cir->radius)
+		return (0); //Outside
+	if (cir->radius - distance < 1.000000)
+		return (2); //Border
+	return (1); //Inside
+}
+
+char is_in_circle(t_win *win, t_cir *cir, float x, float y)
+{
+	int position;
+
+	position = where(x, y, cir);
+	if (position == 2 || (position == 1 && cir->type == 'C'))
 		return (cir->draw);
-	if (distance_diff > -1.00000000 && distance_diff < 1.00000000 && cir->type == 'c')
-		return (cir->draw);
-	return (win->background);
+	else
+		return (win->background);
 }
 
 
-static char ft_pixel_put(t_win *win, t_cir *cir, int x, int y)
+static char ft_pixel_put(t_win *win, t_cir *cir, float x, float y)
 {
 	char ret;
 	char final;
@@ -33,13 +43,16 @@ static char ft_pixel_put(t_win *win, t_cir *cir, int x, int y)
 	return (final);
 }
 
-static t_cir *new_list(t_cir *cir)
+void free_list(t_cir *cir)
 {
-	t_cir *new;
+	t_cir *tmp;
 
-	new = malloc(sizeof(t_cir));
-	cir->next = new;
-	return (new);
+	while (cir)
+	{
+		tmp = cir;
+		cir = cir->next;
+		free(tmp);
+	}
 }
 
 char *get_buffer(t_win *win, t_cir *cir)
@@ -57,7 +70,7 @@ char *get_buffer(t_win *win, t_cir *cir)
 		x = 0;
 		while (x < win->width)
 		{
-			buffer[i] = ft_pixel_put(win, cir, (float)x, (float)y);
+			buffer[i] = ft_pixel_put(win, cir, x, y);
 			x++;
 			i++;
 		}
@@ -66,38 +79,29 @@ char *get_buffer(t_win *win, t_cir *cir)
 		y++;
 	}
 	buffer[i] = '\0';
+	free_list(cir);
 	return (buffer);
 }
 
 void parse(t_win *win, t_cir *cir, FILE * fd)
 {
 	int ret;
-	t_cir *beginlist;
 
 	ret = 1;
-	beginlist = cir;
 	if(!(fscanf(fd, "%d %d %c ", &win->width, &win->height, &win->background)))
-	{
 		g_error = 1;
-	}
 	if (win->width <= 0 || win->width > 300 || win->height <= 0 || win->height > 300)
-	{
 		g_error = 1;
-	}
 	while(ret != -1)
 	{
-		if(!(ret = fscanf(fd, "%c %f %f %f %c ", &cir->type, &cir->x_c, &cir->y_c, &cir->radius, &cir->draw)))
-		{
+		if(!(ret = fscanf(fd, "%c %f %f %f %c ", &cir->type, &cir->x, &cir->y, &cir->radius, &cir->draw)))
 			g_error = 1;
-		}
-		if (ret == 5)
+		if (ret != -1)
 		{
-
-			if ((cir->type != 'c' && cir->type != 'C') || cir->radius <= 0)
-			{
+			if ((cir->type != 'c' && cir->type != 'C') || cir->radius <= 0 || ret != 5)
 				g_error = 1;
-			}
-			cir = new_list(cir);
+			cir->next = malloc(sizeof(t_cir));
+			cir = cir->next;
 		}
 		else
 			cir->next = NULL;
@@ -112,8 +116,6 @@ int main(int argc, char **argv)
 	char *buffer;
 	int i;
 
-	cir = malloc(sizeof(t_cir));
-	win = malloc(sizeof(t_win));
 	i = 0;
 	if (argc != 2)
 	{
@@ -125,15 +127,20 @@ int main(int argc, char **argv)
 		write(1,"Error: Operation file corrupted\n",32);
 		return(1);
 	}
+	cir = malloc(sizeof(t_cir));
+	win = malloc(sizeof(t_win));
 	parse(win, cir, fd);
 	if (!g_error)
 	{
 		buffer = get_buffer(win, cir);
-	while(buffer[i])
-	{
-		write(1,&buffer[i],1);
-		i++;
+		while(buffer[i])
+		{
+			write(1, &buffer[i], 1);
+			i++;
+		}
+		free(buffer);
+		return (0);
 	}
-	}
-	return (g_error);
+	write(1,"Error: Operation file corrupted\n",32);
+	return(1);
 }

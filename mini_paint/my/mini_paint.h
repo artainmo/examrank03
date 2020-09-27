@@ -17,8 +17,8 @@ typedef struct s_window
 typedef struct s_circle
 {
 	char type;
-	float x_c;
-	float y_c;
+	float x;
+	float y;
 	float radius;
 	char draw;
 	struct s_circle *next;
@@ -27,5 +27,3 @@ typedef struct s_circle
 extern int g_error;
 
 #endif
-
-
