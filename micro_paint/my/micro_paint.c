@@ -1,18 +1,31 @@
 #include "micro_paint.h"
 
+//On exam no obligation to free correctly
 int g_error = 0;
 
-int is_in_rectangle(t_win *win, t_r *r, float x, float y)
+int where(float x, float y, t_r *rec)
 {
-	if (x >= r->x && x <= r->x + r->width && y >= r->y && y <= r->y + r->height && r->type == 'R')
-		return (r->draw);
-	if (x > r->x && x < r->x + r->width && y > r->y && y < r->y + r->height && r->type == 'r')
-	{
-		if (x > r->x + 1.00000000 && x < r->x + r->width - 1.00000000 && y > r->y + 1.00000000 && y < r->y + r->height - 1.00000000)
-			return (win->background);
-		return (r->draw);
-	}
-	return (win->background);
+	float xl = rec->x;
+	float xr = rec->x + rec->width;
+	float yt = rec->y;
+	float yb = rec->y + rec->height;
+
+	if (x < xl || x > xr || y < yt || y > yb)
+		return (0); //Outside
+	if (x - xl < 1.000000 || xr - x < 1.000000 || y - yt < 1.000000 || yb - y < 1.000000)
+		return (2);
+	return (1);
+}
+
+int is_in_rectangle(t_win *win, t_r *rec, float x, float y)
+{
+	int position;
+
+	position = where(x, y, rec);
+	if (position == 2 || (position == 1 && rec->type == 'R'))
+		return (rec->draw);
+	else
+		return (win->background);
 }
 
 
@@ -25,11 +38,23 @@ char ft_pixel_put(t_win *win, t_r *r, float x, float y)
 	while(r->next != NULL)
 	{
 		ret = is_in_rectangle(win, r, x, y);
-		if (ret != final && ret != win->background)
+		if (ret != win->background) //Last rectangle activates the pixel
 			final = ret;
 		r = r->next;
 	}
 	return (final);
+}
+
+void free_list(t_r *rec)
+{
+	t_r *tmp;
+
+	while (rec)
+	{
+		tmp = rec;
+		rec = rec->next;
+		free(tmp);
+	}
 }
 
 char *get_buffer(t_win *win, t_r *r)
@@ -73,9 +98,9 @@ void parse(t_win *win, t_r *r, FILE * fd)
 	{
 		if(!(ret = fscanf(fd, "%c %f %f %f %f %c ", &r->type, &r->x, &r->y, &r->width, &r->height, &r->draw)))
 			g_error = 1;
-		if (ret == 6)
+		if (ret != -1)
 		{
-			if ((r->type != 'r' && r->type != 'R') || r->width <= 0 || r->height <= 0)
+			if ((r->type != 'r' && r->type != 'R') || r->width <= 0 || r->height <= 0 || ret != 6)
 				g_error = 1;
 			r->next = malloc(sizeof(t_r));
 			r = r->next;
@@ -93,8 +118,6 @@ int main(int argc, char **argv)
 	char *buffer;
 	int i;
 
-	r = malloc(sizeof(t_r));
-	win = malloc(sizeof(t_win));
 	i = 0;
 	if (argc != 2)
 	{
@@ -106,6 +129,8 @@ int main(int argc, char **argv)
 		write(1,"Error: Operation file corrupted\n",32);
 		return(1);
 	}
+	r = malloc(sizeof(t_r));
+	win = malloc(sizeof(t_win));
 	parse(win, r, fd);
 	if (!g_error)
 	{
@@ -115,6 +140,7 @@ int main(int argc, char **argv)
 			write(1,&buffer[i],1);
 			i++;
 		}
+		free(buffer);
 		return (0);
 	}
 	write(1, "Error: Operation file corrupted\n", 32);
