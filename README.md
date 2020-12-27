@@ -7,6 +7,7 @@ This is a unit-test for the examrank03 at 42 school. One for micro_paint and one
 
 ### Usage:
 * First, set env:
+
   ```
   make set
   ```
@@ -14,6 +15,7 @@ This is a unit-test for the examrank03 at 42 school. One for micro_paint and one
 
 Put your own micro/mini_paint in the appropriate "my" directory.
 * Third
+
   ```
   make / make run / make re
   ```
