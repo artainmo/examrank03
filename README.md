@@ -21,7 +21,7 @@ Put your own micro/mini_paint in the appropriate "my" directory.
   ```
 
 ### Answers
-Correct answers can be found in answers/correct_log.txt and wrong ones in answers/errors_log.txt
+Correct answers can be found in correct_log.txt and wrong ones in errors_log.txt
 
 ### Other
 To do single tests, add at the end of the last line in the single section in the makefile the test you want (for example 1), then use "make single" in terminal

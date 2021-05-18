@@ -25,7 +25,7 @@ if __name__ == "__main__":
         os.remove("errors_log.txt")
     except:
         pass
-    with open("tests.txt", "r") as fd_tests, open("answers/errors_log.txt", "a+") as fd_error_log, open("answers/correct_log.txt", "a+") as fd_correct_log:
+    with open("tests.txt", "r") as fd_tests, open("errors_log.txt", "a+") as fd_error_log, open("correct_log.txt", "a+") as fd_correct_log:
         tests = fd_tests.readlines()
         for test in tests:
             if test[0] != '#':
