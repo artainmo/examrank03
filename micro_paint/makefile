@@ -21,5 +21,5 @@ clean:
 
 fclean:
 	$(RM) my_micro_paint our_micro_paint
-	$(RM) answers/correct_log.txt answers/errors_log.txt
+	$(RM) correct_log.txt errors_log.txt
 	$(RM) __pycache__ micro_paint_tester/__pycache__ micro_paint_tester/examples/__pycache__
