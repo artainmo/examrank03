@@ -2,9 +2,8 @@
 #define MICRO_PAINT_H
 
 #include <stdio.h>
-#include <unistd.h>
-#include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <math.h>
 
 typedef struct s_window
@@ -12,7 +11,7 @@ typedef struct s_window
 	int width;
 	int height;
 	char background;
-} t_win;
+} t_w;
 
 typedef struct s_rectangle
 {
