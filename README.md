@@ -1,5 +1,5 @@
 # examrank03-unittest
-This is a unit-test written in python for the examrank03 at 42 school. One for micro_paint and one for mini_paint. This unittest exists to make sure you calculate your objects in the same way 42 school does
+This is a unit-test written in python for the examrank03 at 42 school. One for micro_paint and one for mini_paint. This unittest exists to make sure you calculate your objects in the same way 42 school does.
 
 ### prerequisite:
 * Python3.7
