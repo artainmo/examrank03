@@ -1,5 +1,5 @@
-operation_file.example
-operation_file.example2
+operation_file_example
+operation_file_example2
 15
 1 2
 
